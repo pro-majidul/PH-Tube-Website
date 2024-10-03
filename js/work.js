@@ -32,31 +32,43 @@ const ShowAllButtons = (buttons) => {
 const loadVideoFeatch = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
         .then(res => res.json())
-        .then(data =>ShowAllVideos(data.videos))
+        .then(data => ShowAllVideos(data.videos))
         .catch(error => console.log(error))
 }
 
 const ShowAllVideos = (videos) => {
     const videosField = document.getElementById('videos-Container');
-  
+
     videos.forEach((element) => {
         // create video card 
         const videoCard = document.createElement('div');
-        videoCard.classList = ("card card-compact bg-base-100 w-96 shadow-xl")
+        videoCard.classList = "card card-compact bg-base-100 w-96 shadow-xl";
         videoCard.innerHTML = `
-        <figure class="h-[200px] w-full">
-            <img class=" h-full object-cover"
+        <figure class="h-[200px] ">
+            <img 
             src="${element.thumbnail}"
+            class="h-full w-full object-cover"
             alt="Shoes" />
         </figure>
-        <div class="card-body">
-            <h2 class="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+        <div class="py-2 flex gap-2">
+            <div class="h-10 w-10">
+             <img 
+            src="${element.authors[0].profile_picture}"
+            class="h-full w-full rounded-full object-cover"
+            alt="Shoes" />
+            </div>
+            <div>
+            <h2 class=" font-bold text-lg">${element.title}</h2>
+            <div class="flex items-center gap-3">
+            <p class="text-gray-400">${element.authors[0].profile_name}</p>
+            <img class="h-5 w-5"
+             src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png" />
+            </div>
+            <p class="text-gray-600 text-xs">${element.others.views} views </p>
             </div>
         </div>
-        </div>`;
+        </div>
+        `;
         videosField.append(videoCard);
     })
 
