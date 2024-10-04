@@ -47,8 +47,8 @@ const ShowAllButtons = (buttons) => {
     >>>>Showallvodes function e jei card ta deya ace oi card er image er upore ekta second number deya ace oitake time a vag kore ber kora hoy 
 
 */
-const timaDateCalculate = (times)=>{
-    const hour = parseInt(times/3600);
+const timaDateCalculate = (times) => {
+    const hour = parseInt(times / 3600);
     let remainingSecond = times % 3600;
     const minute = parseInt(remainingSecond / 60);
     remainingSecond = remainingSecond % 60;
@@ -77,10 +77,10 @@ const timaDateCalculate = (times)=>{
     ei section suru hoice 
 */
 
-const clickButton = (id)=>{
+const clickButton = (id) => {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
-        .then(res=> res.json())
-        .then(data=> {
+        .then(res => res.json())
+        .then(data => {
             changeColorBtn()
             const btnColorChange = document.getElementById(`btn-${id}`);
             btnColorChange.classList.add("bg-red-500");
@@ -95,10 +95,10 @@ const clickButton = (id)=>{
 */
 
 // click korar por btn er color change korar function 
-const changeColorBtn = () =>{
+const changeColorBtn = () => {
     const btnColorChange = document.getElementsByClassName('catagory-btn');
     // console.log(btnColorChange);
-    for(const btn of btnColorChange){
+    for (const btn of btnColorChange) {
         btn.classList.remove('bg-red-500');
         btn.classList.remove('text-white');
     }
@@ -106,14 +106,14 @@ const changeColorBtn = () =>{
 }
 
 // btn get detail in card 
- const getDetails = (id)=>{
-   fetch(`https://openapi.programming-hero.com/api/phero-tube/video/${id}`)
-    .then(res=>res.json())
-    .then(data=> displayGetDetails(data.video))
- }
+const getDetails = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/video/${id}`)
+        .then(res => res.json())
+        .then(data => displayGetDetails(data.video))
+}
 
 //  display getDetails card in modal 
-const displayGetDetails = (displays) =>{
+const displayGetDetails = (displays) => {
     const modalContainer = document.getElementById('modal-container');
     modalContainer.innerHTML = `
     <img src="${displays.thumbnail}"/>
@@ -135,8 +135,8 @@ const displayGetDetails = (displays) =>{
 
 
 // create video feath function 
-const loadVideoFeatch = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideoFeatch = (searchbox = "") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title= ${searchbox}`)
         .then(res => res.json())
         .then(data => ShowAllVideos(data.videos))
         .catch(error => console.log(error))
@@ -156,16 +156,16 @@ const ShowAllVideos = (videos) => {
     videosField.innerHTML = '';
 
     // jodi id er vitor kono card na pay tahole ei kaj ta korbe 
-    if(videos.length==0){
-       videosField.classList.remove("grid")
+    if (videos.length == 0) {
+        videosField.classList.remove("grid")
         videosField.innerHTML = `
         <div class="flex flex-col justify-center items-center gap-10 min-h-[500px] ">
             <img src="./design/Icon.png"/>
             <h3 class=" text-3xl font-bold  text-gray-900"> Opps! Sorry There is no content here </h3>
         </div>
         `;
-        return ;
-    }else{
+        return;
+    } else {
         videosField.classList.add("grid")
     }
 
@@ -182,7 +182,7 @@ const ShowAllVideos = (videos) => {
             alt="Shoes" />
             ${element.others.posted_date?.length == 0 ? "" : `
                  <span class="absolute right-4 bottom-4 bg-black rounded p-1 text-xs text-white">
-                 ${ timaDateCalculate(element.others.posted_date)}</span>
+                 ${timaDateCalculate(element.others.posted_date)}</span>
                  ` }
            
         </figure>
@@ -214,7 +214,9 @@ const ShowAllVideos = (videos) => {
 }
 
 
-
+document.getElementById('search-box').addEventListener("keyup", (e) => {
+    loadVideoFeatch(e.target.value);
+})
 
 
 
