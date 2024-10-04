@@ -105,6 +105,23 @@ const changeColorBtn = () =>{
 
 }
 
+// btn get detail in card 
+ const getDetails = (id)=>{
+   fetch(`https://openapi.programming-hero.com/api/phero-tube/video/${id}`)
+    .then(res=>res.json())
+    .then(data=> displayGetDetails(data.video))
+ }
+
+//  display getDetails card in modal 
+const displayGetDetails = (displays) =>{
+    const modalContainer = document.getElementById('modal-container');
+    modalContainer.innerHTML = `
+    <img src="${displays.thumbnail}"/>
+        <h3>${displays.description}</h3>
+    `
+    document.getElementById("modalbox").showModal();
+}
+
 /*
  >>>>>>>>>>>>>>>>>>>>>>>> create videos card area start here
  
@@ -186,8 +203,9 @@ const ShowAllVideos = (videos) => {
                 : ""}
             </div>
             <p class="text-gray-600 text-xs">${element.others.views} views </p>
+            <button onclick="getDetails('${element.video_id}')" class=" btn btn-xs btn-error">Details</button>
             </div>
-        </div>
+            </div>
         </div>
         `;
         videosField.append(videoCard);
